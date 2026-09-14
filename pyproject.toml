@@ -1,0 +1,9 @@
+[project]
+name = "shiprocket-final"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.11"
+dependencies = [
+    "ipykernel>=7.3.0",
+    "kaggle>=2.2.4",
+]

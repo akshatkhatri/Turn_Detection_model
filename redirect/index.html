@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        const targetUrl = "https://missouri-reviews-camp-sentence.trycloudflare.com";
+
+        // This dynamically updates the redirect meta tag and redirects the browser
+        window.addEventListener('DOMContentLoaded', (event) => {
+            if (targetUrl) {
+                // Update the meta refresh tag dynamically
+                let meta = document.createElement('meta');
+                meta.httpEquiv = "refresh";
+                meta.content = "0;url=" + targetUrl;
+                document.getElementsByTagName('head')[0].appendChild(meta);
+
+                // Also update the clickable link text just in case
+                document.getElementById('fallback-link').href = targetUrl;
+                document.getElementById('fallback-link').innerText = targetUrl;
+
+                // Perform the redirect immediately
+                window.location.replace(targetUrl);
+            }
+        });
+    </script>
+</head>
+<body>
+    <p>Redirecting to your tunnel... If you are not redirected automatically, <a id="fallback-link" href="#">click here</a>.</p>
+</body>
+</html>
