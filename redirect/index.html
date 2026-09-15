@@ -323,6 +323,8 @@
       with the current Cloudflare Quick Tunnel URL.
   */
   const targetUrl = "__TUNNEL_URL__";
+  const PLACEHOLDER_TOKEN = "_" + "_TUNNEL_URL_" + "_";
+  const urlWasInjected = targetUrl !== PLACEHOLDER_TOKEN && targetUrl.length > 0;
 
   const form = document.getElementById("visitor-form");
   const submitButton = document.getElementById("submit-button");
@@ -362,7 +364,7 @@
         If GitHub Actions failed to replace the placeholder,
         don't attempt a redirect.
     */
-    if (!targetUrl || targetUrl === "__TUNNEL_URL__") {
+    if (!urlWasInjected) {
       errorMessage.classList.add("visible");
       return;
     }
