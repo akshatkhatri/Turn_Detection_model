@@ -214,6 +214,43 @@
     transform: none;
   }
 
+  .eyebrow-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+
+  .visitors-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+
+    padding: 5px 10px;
+
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    color: var(--text-2);
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+
+    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .visitors-link:hover {
+    color: var(--text-1);
+    border-color: rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .visitors-link svg {
+    flex-shrink: 0;
+  }
+
   .footer {
     margin-top: 20px;
     text-align: center;
@@ -252,9 +289,19 @@
 
 <div class="card">
 
-  <div class="eyebrow">
-    <span class="dot"></span>
-    AI &middot; Turn Detection
+  <div class="eyebrow-row">
+    <div class="eyebrow">
+      <span class="dot"></span>
+      AI &middot; Turn Detection
+    </div>
+
+    <a href="#" id="visitors-link" class="visitors-link" title="View visitor log">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1.333 8S3.556 3 8 3s6.667 5 6.667 5-2.223 5-6.667 5-6.667-5-6.667-5Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="8" cy="8" r="1.833" stroke="currentColor" stroke-width="1.3"/>
+      </svg>
+      Visitors
+    </a>
   </div>
 
   <h1>Turn Detection Model</h1>
@@ -332,6 +379,19 @@
   const nameInput = document.getElementById("name");
   const nameHint = document.getElementById("name-hint");
   const reasonInput = document.getElementById("reason");
+  const visitorsLink = document.getElementById("visitors-link");
+
+  if (urlWasInjected) {
+    try {
+      const visitorsUrl = new URL(targetUrl);
+      visitorsUrl.pathname = "/visitors";
+      visitorsLink.href = visitorsUrl.toString();
+    } catch (error) {
+      visitorsLink.style.display = "none";
+    }
+  } else {
+    visitorsLink.style.display = "none";
+  }
 
   function setNameError(show) {
     nameInput.classList.toggle("field-error", show);
