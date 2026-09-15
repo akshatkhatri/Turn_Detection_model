@@ -11,17 +11,19 @@ from torch.utils.data import Dataset, DataLoader
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 from tqdm import tqdm
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI()
 features = ("log-mel-spectrogram",)
 DIR = "/Users/akshat.khatri/PycharmProjects/Shiprocket_final/val_samples"
-VAL_FILE_MAPPINGS_TRANSCRIPTS_PATH = '/Users/akshat.khatri/PycharmProjects/Shiprocket_final/transcripts/merged_output_val.jsonl'
+VAL_FILE_MAPPINGS_TRANSCRIPTS_PATH = '/Users/akshat.khatri/Desktop/Turn_Detection_model/transcripts/merged_output_val.jsonl'
 MODEL_DIR = "/Users/akshat.khatri/PycharmProjects/Shiprocket_final/kaggle/working/muril-endpoint-clf/checkpoint-3500"
-VISITOR_LOG_PATH = "/Users/akshat.khatri/PycharmProjects/Shiprocket_final/visitors.jsonl"
-VISITORS_PASSWORD = os.environ.get("VISITORS_PASSWORD", "akshat2233")
+VISITOR_LOG_PATH = "/Users/akshat.khatri/Desktop/Turn_Detection_model/visitors.jsonl"
+VISITORS_PASSWORD = os.environ.get("VISITORS_PASSWORD")
 
 security = HTTPBasic()
-
 
 def require_visitors_auth(credentials: HTTPBasicCredentials = Depends(security)):
     correct_password = secrets.compare_digest(credentials.password, VISITORS_PASSWORD)
@@ -156,7 +158,7 @@ def index(request: Request):
     if visitor_name:
         log_visitor(request, visitor_name, visitor_reason)
 
-    with open(os.path.join(os.path.dirname(__file__), "static", "/Users/akshat.khatri/PycharmProjects/Shiprocket_final/index.html")) as f:
+    with open(os.path.join(os.path.dirname(__file__), "static", "/Users/akshat.khatri/Desktop/Turn_Detection_model/index.html")) as f:
         return f.read()
 
 
