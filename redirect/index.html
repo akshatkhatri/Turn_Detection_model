@@ -7,21 +7,57 @@
 
 <style>
   :root {
+    color-scheme: light;
+
+    --bg-0: #f4f1ea;
+    --panel: #ffffff;
+    --panel-border: rgba(32, 30, 26, 0.10);
+    --surface-1: rgba(32, 30, 26, 0.035);
+    --surface-1-border: rgba(32, 30, 26, 0.06);
+    --input-bg: #faf8f3;
+    --input-border: rgba(32, 30, 26, 0.14);
+    --text-0: #201e1a;
+    --text-1: #5c584f;
+    --text-2: #8b867b;
+    --accent: #b5622f;
+    --accent-hover: #9d5327;
+    --accent-text: #ffffff;
+    --accent-soft: rgba(181, 98, 47, 0.09);
+    --accent-border: rgba(181, 98, 47, 0.28);
+    --danger-bg: rgba(190, 78, 66, 0.08);
+    --danger-border: rgba(190, 78, 66, 0.28);
+    --danger-text: #96382a;
+    --glow-1: rgba(181, 98, 47, 0.07);
+    --glow-2: rgba(120, 100, 160, 0.05);
+    --card-shadow: 0 20px 44px -24px rgba(32, 26, 18, 0.22);
+    --radius-lg: 16px;
+    --radius-md: 10px;
+  }
+
+  html[data-theme="dark"] {
+    color-scheme: dark;
+
     --bg-0: #08090c;
-    --bg-1: #0e1016;
     --panel: #12141b;
     --panel-border: rgba(255, 255, 255, 0.08);
+    --surface-1: rgba(255, 255, 255, 0.03);
+    --surface-1-border: rgba(255, 255, 255, 0.05);
+    --input-bg: #0e1016;
+    --input-border: rgba(255, 255, 255, 0.10);
     --text-0: #f4f5f7;
     --text-1: #a7acb8;
     --text-2: #6b7280;
     --accent: #5b8cff;
     --accent-hover: #6f98ff;
     --accent-text: #0a0c10;
+    --accent-soft: rgba(91, 140, 255, 0.10);
+    --accent-border: rgba(91, 140, 255, 0.25);
     --danger-bg: rgba(240, 90, 90, 0.08);
     --danger-border: rgba(240, 90, 90, 0.28);
     --danger-text: #ffb4b4;
-    --radius-lg: 16px;
-    --radius-md: 10px;
+    --glow-1: rgba(91, 140, 255, 0.10);
+    --glow-2: rgba(120, 90, 255, 0.08);
+    --card-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.6);
   }
 
   * { box-sizing: border-box; }
@@ -43,9 +79,10 @@
 
     color: var(--text-0);
     background:
-      radial-gradient(1200px 600px at 15% -10%, rgba(91, 140, 255, 0.10), transparent 60%),
-      radial-gradient(900px 500px at 100% 110%, rgba(120, 90, 255, 0.08), transparent 55%),
+      radial-gradient(1200px 600px at 15% -10%, var(--glow-1), transparent 60%),
+      radial-gradient(900px 500px at 100% 110%, var(--glow-2), transparent 55%),
       var(--bg-0);
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 
   .card {
@@ -56,9 +93,42 @@
     background: var(--panel);
     border: 1px solid var(--panel-border);
     border-radius: var(--radius-lg);
-    box-shadow:
-      0 1px 0 rgba(255,255,255,0.03) inset,
-      0 30px 60px -20px rgba(0,0,0,0.6);
+    box-shadow: var(--card-shadow);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+
+    border: 1px solid var(--panel-border);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-2);
+
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 1;
+
+    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .theme-toggle:hover {
+    color: var(--text-1);
+    border-color: var(--text-2);
+    background: rgba(128, 128, 128, 0.08);
   }
 
   .eyebrow {
@@ -67,13 +137,12 @@
     gap: 6px;
 
     padding: 5px 10px;
-    margin-bottom: 22px;
 
     border-radius: 999px;
-    background: rgba(91, 140, 255, 0.10);
-    border: 1px solid rgba(91, 140, 255, 0.25);
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-border);
 
-    color: #b8cbff;
+    color: var(--accent);
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.02em;
@@ -111,8 +180,8 @@
     margin-bottom: 24px;
 
     border-radius: var(--radius-md);
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--surface-1);
+    border: 1px solid var(--surface-1-border);
 
     color: var(--text-1);
     font-size: 13.5px;
@@ -153,10 +222,10 @@
     width: 100%;
     padding: 12px 13px;
 
-    border: 1px solid rgba(255,255,255,0.10);
+    border: 1px solid var(--input-border);
     border-radius: var(--radius-md);
 
-    background: var(--bg-1);
+    background: var(--input-bg);
     color: var(--text-0);
 
     font-family: inherit;
@@ -170,7 +239,7 @@
 
   input:focus {
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(91, 140, 255, 0.15);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
   }
 
   input.field-error {
@@ -214,43 +283,6 @@
     transform: none;
   }
 
-  .eyebrow-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 22px;
-  }
-
-  .visitors-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-
-    padding: 5px 10px;
-
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-
-    color: var(--text-2);
-    font-size: 12px;
-    font-weight: 500;
-    text-decoration: none;
-
-    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
-  }
-
-  .visitors-link:hover {
-    color: var(--text-1);
-    border-color: rgba(255, 255, 255, 0.14);
-    background: rgba(255, 255, 255, 0.05);
-  }
-
-  .visitors-link svg {
-    flex-shrink: 0;
-  }
-
   .footer {
     margin-top: 20px;
     text-align: center;
@@ -289,19 +321,21 @@
 
 <div class="card">
 
-  <div class="eyebrow-row">
+  <div class="top-row">
     <div class="eyebrow">
       <span class="dot"></span>
       AI &middot; Turn Detection
     </div>
 
-    <a href="#" id="visitors-link" class="visitors-link" title="View visitor log">
-      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M1.333 8S3.556 3 8 3s6.667 5 6.667 5-2.223 5-6.667 5-6.667-5-6.667-5Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="8" cy="8" r="1.833" stroke="currentColor" stroke-width="1.3"/>
-      </svg>
-      Visitors
-    </a>
+    <button
+      class="theme-toggle"
+      id="theme-toggle"
+      type="button"
+      aria-label="Switch to dark mode"
+      title="Switch theme"
+    >
+      <span id="theme-icon">☾</span>
+    </button>
   </div>
 
   <h1>Turn Detection Model</h1>
@@ -365,6 +399,34 @@
 </div>
 
 <script>
+  const themeToggle = document.getElementById("theme-toggle");
+  const themeIcon = document.getElementById("theme-icon");
+
+  const savedTheme = localStorage.getItem("turn-detection-theme");
+  let currentTheme = savedTheme === "dark" ? "dark" : "light";
+
+  function applyTheme(theme) {
+    currentTheme = theme;
+
+    if (theme === "dark") {
+      document.documentElement.setAttribute("data-theme", "dark");
+      themeIcon.textContent = "☀";
+      themeToggle.setAttribute("aria-label", "Switch to light mode");
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+      themeIcon.textContent = "☾";
+      themeToggle.setAttribute("aria-label", "Switch to dark mode");
+    }
+  }
+
+  applyTheme(currentTheme);
+
+  themeToggle.addEventListener("click", function () {
+    const nextTheme = currentTheme === "light" ? "dark" : "light";
+    applyTheme(nextTheme);
+    localStorage.setItem("turn-detection-theme", nextTheme);
+  });
+
   /*
       GitHub Actions replaces this placeholder
       with the current Cloudflare Quick Tunnel URL.
@@ -379,19 +441,6 @@
   const nameInput = document.getElementById("name");
   const nameHint = document.getElementById("name-hint");
   const reasonInput = document.getElementById("reason");
-  const visitorsLink = document.getElementById("visitors-link");
-
-  if (urlWasInjected) {
-    try {
-      const visitorsUrl = new URL(targetUrl);
-      visitorsUrl.pathname = "/visitors";
-      visitorsLink.href = visitorsUrl.toString();
-    } catch (error) {
-      visitorsLink.style.display = "none";
-    }
-  } else {
-    visitorsLink.style.display = "none";
-  }
 
   function setNameError(show) {
     nameInput.classList.toggle("field-error", show);
