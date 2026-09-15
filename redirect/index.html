@@ -9,189 +9,178 @@
   :root {
     color-scheme: light;
 
-    --bg-0: #f4f1ea;
-    --panel: #ffffff;
-    --panel-border: rgba(32, 30, 26, 0.10);
-    --surface-1: rgba(32, 30, 26, 0.035);
-    --surface-1-border: rgba(32, 30, 26, 0.06);
-    --input-bg: #faf8f3;
-    --input-border: rgba(32, 30, 26, 0.14);
-    --text-0: #201e1a;
-    --text-1: #5c584f;
-    --text-2: #8b867b;
+    --bg: #f7f4ee;
+    --bg-warm: #fbf8f2;
+    --panel: rgba(255, 255, 255, 0.94);
+    --panel-border: rgba(37, 32, 26, 0.09);
+    --text: #24211d;
+    --text-muted: #686158;
+    --text-soft: #948c82;
+
     --accent: #b5622f;
-    --accent-hover: #9d5327;
-    --accent-text: #ffffff;
-    --accent-soft: rgba(181, 98, 47, 0.09);
-    --accent-border: rgba(181, 98, 47, 0.28);
-    --danger-bg: rgba(190, 78, 66, 0.08);
-    --danger-border: rgba(190, 78, 66, 0.28);
+    --accent-hover: #9e5124;
+    --accent-soft: #fbf0e8;
+    --accent-border: #edd3c2;
+
+    --input-bg: #fcfbf8;
+    --input-border: #ddd6cc;
+    --input-hover: #cbc2b6;
+
+    --danger-bg: #fff5f2;
+    --danger-border: #efc8bd;
     --danger-text: #96382a;
-    --glow-1: rgba(181, 98, 47, 0.07);
-    --glow-2: rgba(120, 100, 160, 0.05);
-    --card-shadow: 0 20px 44px -24px rgba(32, 26, 18, 0.22);
-    --radius-lg: 16px;
-    --radius-md: 10px;
-  }
 
-  html[data-theme="dark"] {
-    color-scheme: dark;
+    --shadow-lg: 0 28px 70px -38px rgba(70, 47, 29, 0.36),
+                 0 10px 28px -18px rgba(70, 47, 29, 0.18);
+    --shadow-button: 0 10px 22px -14px rgba(181, 98, 47, 0.7);
 
-    --bg-0: #08090c;
-    --panel: #12141b;
-    --panel-border: rgba(255, 255, 255, 0.08);
-    --surface-1: rgba(255, 255, 255, 0.03);
-    --surface-1-border: rgba(255, 255, 255, 0.05);
-    --input-bg: #0e1016;
-    --input-border: rgba(255, 255, 255, 0.10);
-    --text-0: #f4f5f7;
-    --text-1: #a7acb8;
-    --text-2: #6b7280;
-    --accent: #5b8cff;
-    --accent-hover: #6f98ff;
-    --accent-text: #0a0c10;
-    --accent-soft: rgba(91, 140, 255, 0.10);
-    --accent-border: rgba(91, 140, 255, 0.25);
-    --danger-bg: rgba(240, 90, 90, 0.08);
-    --danger-border: rgba(240, 90, 90, 0.28);
-    --danger-text: #ffb4b4;
-    --glow-1: rgba(91, 140, 255, 0.10);
-    --glow-2: rgba(120, 90, 255, 0.08);
-    --card-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.6);
+    --radius-xl: 22px;
+    --radius-lg: 14px;
+    --radius-md: 11px;
   }
 
   * { box-sizing: border-box; }
 
   html, body {
-    height: 100%;
+    min-height: 100%;
   }
 
   body {
     margin: 0;
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
+    display: grid;
+    place-items: center;
+    padding: 32px 20px;
 
     font-family: "Söhne", -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
+    color: var(--text);
 
-    color: var(--text-0);
     background:
-      radial-gradient(1200px 600px at 15% -10%, var(--glow-1), transparent 60%),
-      radial-gradient(900px 500px at 100% 110%, var(--glow-2), transparent 55%),
-      var(--bg-0);
-    transition: background-color 0.2s ease, color 0.2s ease;
+      radial-gradient(800px 460px at 14% 0%, rgba(181, 98, 47, 0.10), transparent 66%),
+      radial-gradient(700px 420px at 94% 100%, rgba(137, 117, 95, 0.10), transparent 62%),
+      linear-gradient(180deg, var(--bg-warm) 0%, var(--bg) 100%);
+  }
+
+  .page-shell {
+    width: 100%;
+    max-width: 500px;
   }
 
   .card {
+    position: relative;
+    overflow: hidden;
     width: 100%;
-    max-width: 440px;
-    padding: 40px 36px 32px;
+    padding: 38px 38px 30px;
 
     background: var(--panel);
     border: 1px solid var(--panel-border);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--card-shadow);
-    transition: background-color 0.2s ease, border-color 0.2s ease;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(10px);
   }
 
-  .top-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 22px;
-  }
-
-  .theme-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    flex-shrink: 0;
-
-    border: 1px solid var(--panel-border);
-    border-radius: 999px;
-    background: transparent;
-    color: var(--text-2);
-
-    cursor: pointer;
-    font-size: 13px;
-    line-height: 1;
-
-    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
-  }
-
-  .theme-toggle:hover {
-    color: var(--text-1);
-    border-color: var(--text-2);
-    background: rgba(128, 128, 128, 0.08);
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(181, 98, 47, 0.65), transparent);
   }
 
   .eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+    margin-bottom: 18px;
+    padding: 6px 10px;
 
-    padding: 5px 10px;
-
+    border: 1px solid var(--accent-border);
     border-radius: 999px;
     background: var(--accent-soft);
-    border: 1px solid var(--accent-border);
 
     color: var(--accent);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.02em;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.055em;
     text-transform: uppercase;
   }
 
   .eyebrow .dot {
-    width: 6px;
-    height: 6px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
-    background: #6ee7a0;
-    box-shadow: 0 0 0 3px rgba(110, 231, 160, 0.15);
+    background: #68b782;
+    box-shadow: 0 0 0 4px rgba(104, 183, 130, 0.13);
   }
 
   h1 {
     margin: 0 0 10px;
-    font-size: 26px;
-    line-height: 1.25;
-    letter-spacing: -0.01em;
-    font-weight: 650;
+    color: var(--text);
+    font-size: clamp(27px, 6vw, 32px);
+    line-height: 1.16;
+    letter-spacing: -0.035em;
+    font-weight: 720;
   }
 
   .description {
     margin: 0 0 24px;
-    color: var(--text-1);
-    line-height: 1.6;
+    color: var(--text-muted);
     font-size: 14.5px;
+    line-height: 1.7;
   }
 
   .welcome {
     display: flex;
-    gap: 10px;
-
+    align-items: flex-start;
+    gap: 11px;
+    margin-bottom: 26px;
     padding: 13px 14px;
-    margin-bottom: 24px;
 
-    border-radius: var(--radius-md);
-    background: var(--surface-1);
-    border: 1px solid var(--surface-1-border);
+    border: 1px solid #ece5dc;
+    border-radius: var(--radius-lg);
+    background: #faf8f4;
 
-    color: var(--text-1);
+    color: var(--text-muted);
     font-size: 13.5px;
     line-height: 1.55;
   }
 
-  .welcome span.emoji {
-    flex-shrink: 0;
-    font-size: 15px;
-    line-height: 1.55;
+  .welcome .emoji {
+    display: grid;
+    place-items: center;
+    width: 27px;
+    height: 27px;
+    flex: 0 0 27px;
+    margin-top: 1px;
+
+    border: 1px solid #eadfd3;
+    border-radius: 9px;
+    background: #fff;
+    font-size: 14px;
+  }
+
+  .banner {
+    display: none;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 12px 13px;
+
+    border: 1px solid var(--danger-border);
+    border-radius: var(--radius-md);
+    background: var(--danger-bg);
+
+    color: var(--danger-text);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .banner.visible { display: flex; }
+
+  .banner svg {
+    flex: 0 0 auto;
+    margin-top: 2px;
   }
 
   form {
@@ -204,51 +193,66 @@
   }
 
   label {
-    display: block;
-    margin-bottom: 7px;
-    color: var(--text-0);
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    margin-bottom: 8px;
+
+    color: var(--text);
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 650;
   }
 
   .optional {
-    margin-left: 4px;
-    color: var(--text-2);
-    font-size: 12px;
-    font-weight: 400;
+    color: var(--text-soft);
+    font-size: 11.5px;
+    font-weight: 450;
   }
 
   input {
     width: 100%;
-    padding: 12px 13px;
+    padding: 12.5px 13.5px;
 
     border: 1px solid var(--input-border);
     border-radius: var(--radius-md);
-
     background: var(--input-bg);
-    color: var(--text-0);
+    color: var(--text);
 
-    font-family: inherit;
+    font: inherit;
     font-size: 14.5px;
-
     outline: none;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+
+    transition:
+      border-color 0.16s ease,
+      box-shadow 0.16s ease,
+      background-color 0.16s ease,
+      transform 0.16s ease;
   }
 
-  input::placeholder { color: var(--text-2); }
+  input:hover {
+    border-color: var(--input-hover);
+    background: #fff;
+  }
 
   input:focus {
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(181, 98, 47, 0.11);
+  }
+
+  input::placeholder {
+    color: #a59d93;
   }
 
   input.field-error {
-    border-color: rgba(240, 90, 90, 0.5);
+    border-color: #d78673;
+    background: #fffafa;
+    box-shadow: 0 0 0 4px rgba(190, 78, 66, 0.08);
   }
 
   .field-hint {
     display: none;
-    margin-top: 6px;
+    margin-top: 7px;
     color: var(--danger-text);
     font-size: 12.5px;
   }
@@ -262,171 +266,145 @@
 
     border: 0;
     border-radius: var(--radius-md);
-
     background: var(--accent);
-    color: var(--accent-text);
+    color: #fff;
+    box-shadow: var(--shadow-button);
 
-    font-family: inherit;
+    font: inherit;
     font-size: 14.5px;
-    font-weight: 650;
+    font-weight: 700;
+    letter-spacing: -0.005em;
 
     cursor: pointer;
-    transition: background 0.15s ease, transform 0.1s ease, opacity 0.15s ease;
+    transition:
+      background 0.16s ease,
+      transform 0.12s ease,
+      box-shadow 0.16s ease,
+      opacity 0.16s ease;
   }
 
-  button[type="submit"]:hover { background: var(--accent-hover); }
-  button[type="submit"]:active { transform: translateY(1px); }
+  button[type="submit"]:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 14px 26px -16px rgba(181, 98, 47, 0.78);
+  }
+
+  button[type="submit"]:active {
+    transform: translateY(0);
+  }
+
+  button[type="submit"]:focus-visible {
+    outline: 3px solid rgba(181, 98, 47, 0.22);
+    outline-offset: 3px;
+  }
 
   button[type="submit"]:disabled {
     cursor: not-allowed;
-    opacity: 0.6;
+    opacity: 0.62;
     transform: none;
+    box-shadow: none;
   }
 
   .footer {
-    margin-top: 20px;
+    margin-top: 21px;
+    color: var(--text-soft);
     text-align: center;
-    color: var(--text-2);
-    font-size: 12px;
+    font-size: 11.5px;
     line-height: 1.5;
   }
 
-  .banner {
-    display: none;
-    align-items: flex-start;
-    gap: 10px;
+  @media (max-width: 520px) {
+    body {
+      align-items: start;
+      padding: 20px 14px;
+    }
 
-    margin-bottom: 20px;
-    padding: 12px 13px;
-
-    border-radius: var(--radius-md);
-    background: var(--danger-bg);
-    border: 1px solid var(--danger-border);
-
-    color: var(--danger-text);
-    font-size: 13px;
-    line-height: 1.5;
+    .card {
+      padding: 30px 22px 24px;
+      border-radius: 18px;
+    }
   }
 
-  .banner.visible { display: flex; }
-
-  .banner svg {
-    flex-shrink: 0;
-    margin-top: 1px;
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      scroll-behavior: auto !important;
+      transition: none !important;
+    }
   }
 </style>
 </head>
 
 <body>
 
-<div class="card">
+<div class="page-shell">
+  <main class="card">
 
-  <div class="top-row">
     <div class="eyebrow">
-      <span class="dot"></span>
+      <span class="dot" aria-hidden="true"></span>
       AI &middot; Turn Detection
     </div>
 
-    <button
-      class="theme-toggle"
-      id="theme-toggle"
-      type="button"
-      aria-label="Switch to dark mode"
-      title="Switch theme"
-    >
-      <span id="theme-icon">☾</span>
-    </button>
-  </div>
+    <h1>Turn Detection Model</h1>
 
-  <h1>Turn Detection Model</h1>
+    <p class="description">
+      A multimodal model that combines audio and text signals to detect
+      conversational turn boundaries in real time.
+    </p>
 
-  <p class="description">
-    A multimodal model that combines audio and text signals to detect
-    conversational turn boundaries in real time.
-  </p>
-
-  <div class="welcome">
-    <span class="emoji">👋</span>
-    <span>Hey! I built this project and would love to know who's checking it out.</span>
-  </div>
-
-  <div id="error-message" class="banner" role="alert">
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M8 5.333V8.667M8 11.333h.007M14.667 8A6.667 6.667 0 1 1 1.333 8a6.667 6.667 0 0 1 13.334 0Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    <span>The demo is currently unavailable. Please try again later.</span>
-  </div>
-
-  <form id="visitor-form" novalidate>
-
-    <div class="field">
-      <label for="name">Your name</label>
-      <input
-        type="text"
-        id="name"
-        name="name"
-        placeholder="What should I call you?"
-        autocomplete="name"
-        maxlength="100"
-      >
-      <div id="name-hint" class="field-hint">Please enter your name to continue.</div>
+    <div class="welcome">
+      <span class="emoji" aria-hidden="true">👋</span>
+      <span>Hey! I built this project and would love to know who's checking it out.</span>
     </div>
 
-    <div class="field">
-      <label for="reason">
-        What brings you here?
-        <span class="optional">(optional)</span>
-      </label>
-      <input
-        type="text"
-        id="reason"
-        name="reason"
-        placeholder="Just curious, reviewing the project…"
-        maxlength="300"
-      >
+    <div id="error-message" class="banner" role="alert">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M8 5.333V8.667M8 11.333h.007M14.667 8A6.667 6.667 0 1 1 1.333 8a6.667 6.667 0 0 1 13.334 0Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>The demo is currently unavailable. Please try again later.</span>
     </div>
 
-    <button id="submit-button" type="submit">
-      Explore the model →
-    </button>
+    <form id="visitor-form" novalidate>
+      <div class="field">
+        <label for="name">Your name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="What should I call you?"
+          autocomplete="name"
+          maxlength="100"
+          aria-describedby="name-hint"
+        >
+        <div id="name-hint" class="field-hint">Please enter your name to continue.</div>
+      </div>
 
-  </form>
+      <div class="field">
+        <label for="reason">
+          What brings you here?
+          <span class="optional">(optional)</span>
+        </label>
+        <input
+          type="text"
+          id="reason"
+          name="reason"
+          placeholder="Just curious, reviewing the project…"
+          maxlength="300"
+        >
+      </div>
 
-  <div class="footer">
-    Thanks for checking out my project.
-  </div>
+      <button id="submit-button" type="submit">
+        Explore the model →
+      </button>
+    </form>
 
+    <div class="footer">
+      Thanks for checking out my project.
+    </div>
+
+  </main>
 </div>
 
 <script>
-  const themeToggle = document.getElementById("theme-toggle");
-  const themeIcon = document.getElementById("theme-icon");
-
-  const savedTheme = localStorage.getItem("turn-detection-theme");
-  let currentTheme = savedTheme === "dark" ? "dark" : "light";
-
-  function applyTheme(theme) {
-    currentTheme = theme;
-
-    if (theme === "dark") {
-      document.documentElement.setAttribute("data-theme", "dark");
-      themeIcon.textContent = "☀";
-      themeToggle.setAttribute("aria-label", "Switch to light mode");
-    } else {
-      document.documentElement.removeAttribute("data-theme");
-      themeIcon.textContent = "☾";
-      themeToggle.setAttribute("aria-label", "Switch to dark mode");
-    }
-  }
-
-  applyTheme(currentTheme);
-
-  themeToggle.addEventListener("click", function () {
-    const nextTheme = currentTheme === "light" ? "dark" : "light";
-    applyTheme(nextTheme);
-    localStorage.setItem("turn-detection-theme", nextTheme);
-  });
-
   /*
       GitHub Actions replaces this placeholder
       with the current Cloudflare Quick Tunnel URL.
@@ -445,6 +423,7 @@
   function setNameError(show) {
     nameInput.classList.toggle("field-error", show);
     nameHint.classList.toggle("visible", show);
+    nameInput.setAttribute("aria-invalid", show ? "true" : "false");
   }
 
   nameInput.addEventListener("input", function () {
