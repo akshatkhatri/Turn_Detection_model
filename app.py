@@ -1,8 +1,10 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Depends, HTTPException, status
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.responses import FileResponse, HTMLResponse
 from utils_shiprocket import prepare_data
 import os
 import json
+import secrets
 from datetime import datetime, timezone
 from utils_shiprocket import AudioDataset, gru_collate_fn, AudioGRU
 from torch.utils.data import Dataset, DataLoader
@@ -16,6 +18,20 @@ DIR = "/Users/akshat.khatri/PycharmProjects/Shiprocket_final/val_samples"
 VAL_FILE_MAPPINGS_TRANSCRIPTS_PATH = '/Users/akshat.khatri/PycharmProjects/Shiprocket_final/transcripts/merged_output_val.jsonl'
 MODEL_DIR = "/Users/akshat.khatri/PycharmProjects/Shiprocket_final/kaggle/working/muril-endpoint-clf/checkpoint-3500"
 VISITOR_LOG_PATH = "/Users/akshat.khatri/PycharmProjects/Shiprocket_final/visitors.jsonl"
+VISITORS_PASSWORD = os.environ.get("VISITORS_PASSWORD", "akshat2233")
+
+security = HTTPBasic()
+
+
+def require_visitors_auth(credentials: HTTPBasicCredentials = Depends(security)):
+    correct_password = secrets.compare_digest(credentials.password, VISITORS_PASSWORD)
+    if not correct_password:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect password",
+            headers={"WWW-Authenticate": "Basic"},
+        )
+    return credentials.username
 ALPHA = 0.5
 BETA = 0.5
 THRESHOLD = 0.5
@@ -145,7 +161,7 @@ def index(request: Request):
 
 
 @app.get("/visitors")
-def get_visitors():
+def get_visitors(username: str = Depends(require_visitors_auth)):
     if not os.path.exists(VISITOR_LOG_PATH):
         return []
     with open(VISITOR_LOG_PATH, "r", encoding="utf-8") as f:
