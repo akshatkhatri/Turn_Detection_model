@@ -1,85 +1,398 @@
-name: Deploy Redirect Site to GitHub Pages
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-on:
-  push:
-    branches:
-      - main
+    <title>Turn Detection Model</title>
 
-  workflow_dispatch:
-    inputs:
-      tunnel_url:
-        description: "Paste the new Cloudflare tunnel URL"
-        required: false
-        type: string
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
 
-concurrency:
-  group: pages
-  cancel-in-progress: false
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
 
-jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+            background:
+                radial-gradient(
+                    circle at top,
+                    #1e293b 0%,
+                    #0f172a 45%,
+                    #020617 100%
+                );
 
-    runs-on: ubuntu-latest
+            color: #f8fafc;
+        }
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
+        .card {
+            width: 100%;
+            max-width: 470px;
 
-      - name: Update Cloudflare tunnel URL
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.tunnel_url != '' }}
-        env:
-          TUNNEL_URL: ${{ inputs.tunnel_url }}
-        run: |
-          python3 <<'PY'
-          import os
-          import re
-          from pathlib import Path
+            padding: 38px 34px;
 
-          url = os.environ["TUNNEL_URL"].strip().rstrip("/")
+            background: rgba(15, 23, 42, 0.9);
 
-          if not re.fullmatch(
-              r"https://[A-Za-z0-9-]+\.trycloudflare\.com",
-              url
-          ):
-              raise SystemExit(
-                  f"Invalid Cloudflare tunnel URL: {url}"
-              )
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 22px;
 
-          path = Path("redirect/index.html")
-          html = path.read_text()
+            box-shadow:
+                0 25px 70px rgba(0, 0, 0, 0.4);
 
-          new_html, count = re.subn(
-              r'const targetUrl = "[^"]*";',
-              f'const targetUrl = "{url}";',
-              html
-          )
+            backdrop-filter: blur(14px);
+        }
 
-          if count != 1:
-              raise SystemExit(
-                  f"Expected to replace 1 targetUrl, replaced {count}"
-              )
+        .badge {
+            display: inline-flex;
+            align-items: center;
 
-          path.write_text(new_html)
+            padding: 7px 12px;
+            margin-bottom: 20px;
 
-          print(f"Updated targetUrl to: {url}")
-          PY
+            border-radius: 999px;
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
+            background: rgba(99, 102, 241, 0.13);
+            border: 1px solid rgba(129, 140, 248, 0.28);
 
-      - name: Upload redirect folder
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: ./redirect/
+            color: #c7d2fe;
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        h1 {
+            margin: 0 0 12px;
+
+            font-size: 32px;
+            line-height: 1.15;
+
+            letter-spacing: -0.5px;
+        }
+
+        .description {
+            margin: 0 0 26px;
+
+            color: #94a3b8;
+
+            line-height: 1.65;
+            font-size: 15px;
+        }
+
+        .welcome {
+            padding: 14px 16px;
+            margin-bottom: 25px;
+
+            border-radius: 12px;
+
+            background: rgba(255, 255, 255, 0.035);
+
+            color: #cbd5e1;
+
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #e2e8f0;
+
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .optional {
+            margin-left: 3px;
+
+            color: #64748b;
+
+            font-size: 12px;
+            font-weight: 400;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 13px 14px;
+            margin-bottom: 20px;
+
+            border: 1px solid #334155;
+            border-radius: 10px;
+
+            background: #111827;
+            color: #f8fafc;
+
+            font-family: inherit;
+            font-size: 15px;
+
+            outline: none;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        input::placeholder {
+            color: #64748b;
+        }
+
+        input:focus {
+            border-color: #818cf8;
+
+            box-shadow:
+                0 0 0 3px rgba(129, 140, 248, 0.12);
+        }
+
+        button {
+            width: 100%;
+
+            padding: 14px 18px;
+
+            border: 0;
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #8b5cf6
+                );
+
+            color: white;
+
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.15s ease,
+                opacity 0.15s ease;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            opacity: 0.95;
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            cursor: not-allowed;
+            opacity: 0.65;
+            transform: none;
+        }
+
+        .footer {
+            margin-top: 17px;
+
+            text-align: center;
+
+            color: #64748b;
+
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .error {
+            display: none;
+
+            margin-bottom: 18px;
+            padding: 11px 13px;
+
+            border-radius: 9px;
+
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+
+            color: #fecaca;
+
+            font-size: 13px;
+            line-height: 1.45;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="badge">
+        AI • Turn Detection
+    </div>
+
+    <h1>Turn Detection Model</h1>
+
+    <p class="description">
+        A multimodal model that combines audio and text signals
+        to detect conversational turn boundaries.
+    </p>
+
+    <div class="welcome">
+        👋 Hey! I built this project and would love to know
+        who's checking it out.
+    </div>
+
+    <div
+        id="error-message"
+        class="error"
+    >
+        The demo is currently unavailable. Please try again later.
+    </div>
+
+    <form id="visitor-form">
+
+        <label for="name">
+            Your name
+        </label>
+
+        <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="What should I call you?"
+            autocomplete="name"
+            maxlength="100"
+            required
+        >
+
+        <label for="reason">
+            What brings you here?
+            <span class="optional">(optional)</span>
+        </label>
+
+        <input
+            type="text"
+            id="reason"
+            name="reason"
+            placeholder="Just curious, reviewing the project..."
+            maxlength="300"
+        >
+
+        <button
+            id="submit-button"
+            type="submit"
+        >
+            Explore the model →
+        </button>
+
+    </form>
+
+    <div class="footer">
+        Thanks for checking out my project.
+    </div>
+
+</div>
+
+<script>
+    /*
+        GitHub Actions replaces this placeholder
+        with the current Cloudflare Quick Tunnel URL.
+    */
+    const targetUrl = "__TUNNEL_URL__";
+
+    const form =
+        document.getElementById("visitor-form");
+
+    const submitButton =
+        document.getElementById("submit-button");
+
+    const errorMessage =
+        document.getElementById("error-message");
+
+    form.addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+            errorMessage.style.display = "none";
+
+            const name =
+                document
+                    .getElementById("name")
+                    .value
+                    .trim();
+
+            const reason =
+                document
+                    .getElementById("reason")
+                    .value
+                    .trim();
+
+            if (!name) {
+                return;
+            }
+
+            /*
+                If GitHub Actions failed to replace
+                the placeholder, don't redirect.
+            */
+            if (
+                !targetUrl ||
+                targetUrl === "__TUNNEL_URL__"
+            ) {
+                errorMessage.style.display = "block";
+                return;
+            }
+
+            try {
+
+                const destination =
+                    new URL(targetUrl);
+
+                destination.searchParams.set(
+                    "visitor_name",
+                    name
+                );
+
+                if (reason) {
+                    destination.searchParams.set(
+                        "visitor_reason",
+                        reason
+                    );
+                }
+
+                submitButton.disabled = true;
+                submitButton.textContent =
+                    "Opening project...";
+
+                window.location.replace(
+                    destination.toString()
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Invalid target URL:",
+                    error
+                );
+
+                errorMessage.style.display = "block";
+            }
+        }
+    );
+</script>
+
+</body>
+</html>
+```
