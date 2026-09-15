@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,86 +18,134 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: Inter, Arial, sans-serif;
-            background:
-                radial-gradient(circle at top, #1e293b 0%, #0f172a 45%, #020617 100%);
-            color: #f8fafc;
             padding: 20px;
+
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top,
+                    #1e293b 0%,
+                    #0f172a 45%,
+                    #020617 100%
+                );
+
+            color: #f8fafc;
         }
 
         .card {
             width: 100%;
-            max-width: 460px;
+            max-width: 470px;
+
             padding: 38px 34px;
-            background: rgba(15, 23, 42, 0.88);
+
+            background: rgba(15, 23, 42, 0.9);
+
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 22px;
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+
+            box-shadow:
+                0 25px 70px rgba(0, 0, 0, 0.4);
+
             backdrop-filter: blur(14px);
         }
 
         .badge {
-            display: inline-block;
-            padding: 6px 11px;
+            display: inline-flex;
+            align-items: center;
+
+            padding: 7px 12px;
+            margin-bottom: 20px;
+
             border-radius: 999px;
-            background: rgba(99, 102, 241, 0.14);
-            border: 1px solid rgba(129, 140, 248, 0.3);
+
+            background: rgba(99, 102, 241, 0.13);
+            border: 1px solid rgba(129, 140, 248, 0.28);
+
             color: #c7d2fe;
+
             font-size: 13px;
-            margin-bottom: 18px;
+            font-weight: 600;
         }
 
         h1 {
-            margin: 0 0 10px;
+            margin: 0 0 12px;
+
             font-size: 32px;
             line-height: 1.15;
+
+            letter-spacing: -0.5px;
         }
 
         .description {
+            margin: 0 0 26px;
+
             color: #94a3b8;
-            line-height: 1.6;
-            margin-bottom: 28px;
+
+            line-height: 1.65;
             font-size: 15px;
         }
 
         .welcome {
-            margin-bottom: 22px;
             padding: 14px 16px;
+            margin-bottom: 25px;
+
             border-radius: 12px;
+
             background: rgba(255, 255, 255, 0.035);
+
             color: #cbd5e1;
+
             font-size: 14px;
             line-height: 1.5;
         }
 
         label {
             display: block;
+
+            margin-bottom: 8px;
+
+            color: #e2e8f0;
+
             font-size: 14px;
             font-weight: 600;
-            margin-bottom: 8px;
-            color: #e2e8f0;
         }
 
         .optional {
-            font-weight: 400;
+            margin-left: 3px;
+
             color: #64748b;
+
+            font-size: 12px;
+            font-weight: 400;
         }
 
         input {
             width: 100%;
-            padding: 13px 14px;
-            margin-bottom: 19px;
 
-            color: #f8fafc;
-            background: #111827;
+            padding: 13px 14px;
+            margin-bottom: 20px;
 
             border: 1px solid #334155;
             border-radius: 10px;
-            outline: none;
 
+            background: #111827;
+            color: #f8fafc;
+
+            font-family: inherit;
             font-size: 15px;
 
-            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
         }
 
         input::placeholder {
@@ -105,40 +154,80 @@
 
         input:focus {
             border-color: #818cf8;
-            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.12);
+
+            box-shadow:
+                0 0 0 3px rgba(129, 140, 248, 0.12);
         }
 
         button {
             width: 100%;
-            padding: 14px;
 
-            border: none;
+            padding: 14px 18px;
+
+            border: 0;
             border-radius: 10px;
 
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #8b5cf6
+                );
+
+            color: white;
+
+            font-family: inherit;
             font-size: 15px;
             font-weight: 700;
 
-            color: white;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-
             cursor: pointer;
-            transition: transform 0.15s, opacity 0.15s;
+
+            transition:
+                transform 0.15s ease,
+                opacity 0.15s ease;
         }
 
         button:hover {
-            opacity: 0.95;
             transform: translateY(-1px);
+            opacity: 0.95;
         }
 
         button:active {
             transform: translateY(0);
         }
 
+        button:disabled {
+            cursor: not-allowed;
+            opacity: 0.65;
+            transform: none;
+        }
+
         .footer {
             margin-top: 17px;
+
             text-align: center;
+
             color: #64748b;
+
             font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .error {
+            display: none;
+
+            margin-bottom: 18px;
+            padding: 11px 13px;
+
+            border-radius: 9px;
+
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+
+            color: #fecaca;
+
+            font-size: 13px;
+            line-height: 1.45;
         }
     </style>
 </head>
@@ -148,18 +237,26 @@
 <div class="card">
 
     <div class="badge">
-        AI / Computer Vision Project
+        AI • Turn Detection
     </div>
 
     <h1>Turn Detection Model</h1>
 
     <p class="description">
-        A project built to detect and analyze turns using a trained detection model.
-        Enter your name below and you can jump straight into the demo.
+        A multimodal model that combines audio and text signals
+        to detect conversational turn boundaries.
     </p>
 
     <div class="welcome">
-        👋 I built this project and would love to know who's checking it out.
+        👋 Hey! I built this project and would love to know
+        who's checking it out.
+    </div>
+
+    <div
+        id="error-message"
+        class="error"
+    >
+        The demo is currently unavailable. Please try again later.
     </div>
 
     <form id="visitor-form">
@@ -172,8 +269,9 @@
             type="text"
             id="name"
             name="name"
-            placeholder="Enter your name"
+            placeholder="What should I call you?"
             autocomplete="name"
+            maxlength="100"
             required
         >
 
@@ -186,11 +284,15 @@
             type="text"
             id="reason"
             name="reason"
-            placeholder="Just curious, checking out the project, reviewing it..."
+            placeholder="Just curious, reviewing the project..."
+            maxlength="300"
         >
 
-        <button type="submit">
-            Explore the project →
+        <button
+            id="submit-button"
+            type="submit"
+        >
+            Explore the model →
         </button>
 
     </form>
@@ -201,45 +303,96 @@
 
 </div>
 
-
 <script>
-    const targetUrl =
-        "https://missouri-reviews-camp-sentence.trycloudflare.com";
+    /*
+        GitHub Actions replaces this placeholder
+        with the current Cloudflare Quick Tunnel URL.
+    */
+    const targetUrl = "__TUNNEL_URL__";
 
-    document
-        .getElementById("visitor-form")
-        .addEventListener("submit", function(event) {
+    const form =
+        document.getElementById("visitor-form");
+
+    const submitButton =
+        document.getElementById("submit-button");
+
+    const errorMessage =
+        document.getElementById("error-message");
+
+    form.addEventListener(
+        "submit",
+        function(event) {
 
             event.preventDefault();
 
+            errorMessage.style.display = "none";
+
             const name =
-                document.getElementById("name").value.trim();
+                document
+                    .getElementById("name")
+                    .value
+                    .trim();
 
             const reason =
-                document.getElementById("reason").value.trim();
+                document
+                    .getElementById("reason")
+                    .value
+                    .trim();
 
             if (!name) {
                 return;
             }
 
-            const destination = new URL(targetUrl);
-
-            // These will be visible to your app/server.
-            destination.searchParams.set(
-                "visitor_name",
-                name
-            );
-
-            if (reason) {
-                destination.searchParams.set(
-                    "visitor_reason",
-                    reason
-                );
+            /*
+                If GitHub Actions failed to replace
+                the placeholder, don't redirect.
+            */
+            if (
+                !targetUrl ||
+                targetUrl === "__TUNNEL_URL__"
+            ) {
+                errorMessage.style.display = "block";
+                return;
             }
 
-            window.location.replace(destination.toString());
-        });
+            try {
+
+                const destination =
+                    new URL(targetUrl);
+
+                destination.searchParams.set(
+                    "visitor_name",
+                    name
+                );
+
+                if (reason) {
+                    destination.searchParams.set(
+                        "visitor_reason",
+                        reason
+                    );
+                }
+
+                submitButton.disabled = true;
+                submitButton.textContent =
+                    "Opening project...";
+
+                window.location.replace(
+                    destination.toString()
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Invalid target URL:",
+                    error
+                );
+
+                errorMessage.style.display = "block";
+            }
+        }
+    );
 </script>
 
 </body>
 </html>
+```
