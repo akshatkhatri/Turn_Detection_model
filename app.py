@@ -23,7 +23,9 @@ MODEL_DIR = "/Users/akshat.khatri/PycharmProjects/Shiprocket_final/kaggle/workin
 VISITOR_LOG_PATH = "/Users/akshat.khatri/Desktop/Turn_Detection_model/visitors.jsonl"
 VISITORS_PASSWORD = os.environ.get("VISITORS_PASSWORD")
 
-security = HTTPBasic()
+security = HTTPBasic(
+    description="<b>Username is optional.</b> You can leave it blank or enter anything; only the password is validated."
+)
 
 def require_visitors_auth(credentials: HTTPBasicCredentials = Depends(security)):
     correct_password = secrets.compare_digest(credentials.password, VISITORS_PASSWORD)
@@ -34,6 +36,7 @@ def require_visitors_auth(credentials: HTTPBasicCredentials = Depends(security))
             headers={"WWW-Authenticate": "Basic"},
         )
     return credentials.username
+
 ALPHA = 0.5
 BETA = 0.5
 THRESHOLD = 0.5
