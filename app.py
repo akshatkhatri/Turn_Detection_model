@@ -1,8 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse, HTMLResponse
 from utils_shiprocket import prepare_data
 import os
 import json
+from datetime import datetime, timezone
 from utils_shiprocket import AudioDataset, gru_collate_fn, AudioGRU
 from torch.utils.data import Dataset, DataLoader
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
@@ -14,6 +15,7 @@ features = ("log-mel-spectrogram",)
 DIR = "/Users/akshat.khatri/PycharmProjects/Shiprocket_final/val_samples"
 VAL_FILE_MAPPINGS_TRANSCRIPTS_PATH = '/Users/akshat.khatri/PycharmProjects/Shiprocket_final/transcripts/merged_output_val.jsonl'
 MODEL_DIR = "/Users/akshat.khatri/PycharmProjects/Shiprocket_final/kaggle/working/muril-endpoint-clf/checkpoint-3500"
+VISITOR_LOG_PATH = "/Users/akshat.khatri/PycharmProjects/Shiprocket_final/visitors.jsonl"
 ALPHA = 0.5
 BETA = 0.5
 THRESHOLD = 0.5
@@ -114,10 +116,40 @@ LABEL_BY_ID = {r["id"]: r["label"] for r in PREDICTIONS}
 
 print('Application Build Done.. you can use endpoints Now...')
 
+
+def log_visitor(request: Request, name: str, reason: str | None):
+    entry = {
+        "name": name,
+        "reason": reason,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "ip": request.client.host if request.client else None,
+        "user_agent": request.headers.get("user-agent"),
+    }
+    try:
+        with open(VISITOR_LOG_PATH, "a", encoding="utf-8") as f:
+            f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    except Exception as e:
+        print(f"Failed to log visitor: {e}")
+
+
 @app.get("/", response_class=HTMLResponse)
-def index():
+def index(request: Request):
+    visitor_name = request.query_params.get("visitor_name")
+    visitor_reason = request.query_params.get("visitor_reason")
+
+    if visitor_name:
+        log_visitor(request, visitor_name, visitor_reason)
+
     with open(os.path.join(os.path.dirname(__file__), "static", "/Users/akshat.khatri/PycharmProjects/Shiprocket_final/index.html")) as f:
         return f.read()
+
+
+@app.get("/visitors")
+def get_visitors():
+    if not os.path.exists(VISITOR_LOG_PATH):
+        return []
+    with open(VISITOR_LOG_PATH, "r", encoding="utf-8") as f:
+        return [json.loads(line) for line in f if line.strip()]
 
 
 @app.get("/audio/{sample_id}")
