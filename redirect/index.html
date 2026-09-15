@@ -1,29 +1,245 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <script>
-        const targetUrl = "https://missouri-reviews-camp-sentence.trycloudflare.com";
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        // This dynamically updates the redirect meta tag and redirects the browser
-        window.addEventListener('DOMContentLoaded', (event) => {
-            if (targetUrl) {
-                // Update the meta refresh tag dynamically
-                let meta = document.createElement('meta');
-                meta.httpEquiv = "refresh";
-                meta.content = "0;url=" + targetUrl;
-                document.getElementsByTagName('head')[0].appendChild(meta);
+    <title>Turn Detection Model</title>
 
-                // Also update the clickable link text just in case
-                document.getElementById('fallback-link').href = targetUrl;
-                document.getElementById('fallback-link').innerText = targetUrl;
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-                // Perform the redirect immediately
-                window.location.replace(targetUrl);
-            }
-        });
-    </script>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Inter, Arial, sans-serif;
+            background:
+                radial-gradient(circle at top, #1e293b 0%, #0f172a 45%, #020617 100%);
+            color: #f8fafc;
+            padding: 20px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 460px;
+            padding: 38px 34px;
+            background: rgba(15, 23, 42, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 22px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(14px);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 11px;
+            border-radius: 999px;
+            background: rgba(99, 102, 241, 0.14);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            color: #c7d2fe;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            font-size: 32px;
+            line-height: 1.15;
+        }
+
+        .description {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 28px;
+            font-size: 15px;
+        }
+
+        .welcome {
+            margin-bottom: 22px;
+            padding: 14px 16px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.035);
+            color: #cbd5e1;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #e2e8f0;
+        }
+
+        .optional {
+            font-weight: 400;
+            color: #64748b;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px 14px;
+            margin-bottom: 19px;
+
+            color: #f8fafc;
+            background: #111827;
+
+            border: 1px solid #334155;
+            border-radius: 10px;
+            outline: none;
+
+            font-size: 15px;
+
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input::placeholder {
+            color: #64748b;
+        }
+
+        input:focus {
+            border-color: #818cf8;
+            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.12);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+
+            border: none;
+            border-radius: 10px;
+
+            font-size: 15px;
+            font-weight: 700;
+
+            color: white;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+
+            cursor: pointer;
+            transition: transform 0.15s, opacity 0.15s;
+        }
+
+        button:hover {
+            opacity: 0.95;
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .footer {
+            margin-top: 17px;
+            text-align: center;
+            color: #64748b;
+            font-size: 12px;
+        }
+    </style>
 </head>
+
 <body>
-    <p>Redirecting to your tunnel... If you are not redirected automatically, <a id="fallback-link" href="#">click here</a>.</p>
+
+<div class="card">
+
+    <div class="badge">
+        AI / Computer Vision Project
+    </div>
+
+    <h1>Turn Detection Model</h1>
+
+    <p class="description">
+        A project built to detect and analyze turns using a trained detection model.
+        Enter your name below and you can jump straight into the demo.
+    </p>
+
+    <div class="welcome">
+        👋 I built this project and would love to know who's checking it out.
+    </div>
+
+    <form id="visitor-form">
+
+        <label for="name">
+            Your name
+        </label>
+
+        <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Enter your name"
+            autocomplete="name"
+            required
+        >
+
+        <label for="reason">
+            What brings you here?
+            <span class="optional">(optional)</span>
+        </label>
+
+        <input
+            type="text"
+            id="reason"
+            name="reason"
+            placeholder="Just curious, checking out the project, reviewing it..."
+        >
+
+        <button type="submit">
+            Explore the project →
+        </button>
+
+    </form>
+
+    <div class="footer">
+        Thanks for checking out my project.
+    </div>
+
+</div>
+
+
+<script>
+    const targetUrl =
+        "https://missouri-reviews-camp-sentence.trycloudflare.com";
+
+    document
+        .getElementById("visitor-form")
+        .addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            const name =
+                document.getElementById("name").value.trim();
+
+            const reason =
+                document.getElementById("reason").value.trim();
+
+            if (!name) {
+                return;
+            }
+
+            const destination = new URL(targetUrl);
+
+            // These will be visible to your app/server.
+            destination.searchParams.set(
+                "visitor_name",
+                name
+            );
+
+            if (reason) {
+                destination.searchParams.set(
+                    "visitor_reason",
+                    reason
+                );
+            }
+
+            window.location.replace(destination.toString());
+        });
+</script>
+
 </body>
 </html>
