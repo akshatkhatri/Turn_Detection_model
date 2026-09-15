@@ -1,15 +1,11 @@
 name: Deploy Redirect Site to GitHub Pages
 
 on:
-  push:
-    branches:
-      - main
-
   workflow_dispatch:
     inputs:
       tunnel_url:
-        description: "Paste the new Cloudflare tunnel URL"
-        required: false
+        description: "Paste the current Cloudflare tunnel URL"
+        required: true
         type: string
 
 permissions:
@@ -33,10 +29,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Update Cloudflare tunnel URL
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.tunnel_url != '' }}
+      - name: Insert Cloudflare tunnel URL
         env:
           TUNNEL_URL: ${{ inputs.tunnel_url }}
+
         run: |
           python3 <<'PY'
           import os
@@ -54,22 +50,25 @@ jobs:
               )
 
           path = Path("redirect/index.html")
-          html = path.read_text()
 
-          new_html, count = re.subn(
-              r'const targetUrl = "[^"]*";',
-              f'const targetUrl = "{url}";',
-              html
-          )
+          html = path.read_text(encoding="utf-8")
 
-          if count != 1:
+          if "__TUNNEL_URL__" not in html:
               raise SystemExit(
-                  f"Expected to replace 1 targetUrl, replaced {count}"
+                  "__TUNNEL_URL__ placeholder not found in redirect/index.html"
               )
 
-          path.write_text(new_html)
+          html = html.replace(
+              "__TUNNEL_URL__",
+              url
+          )
 
-          print(f"Updated targetUrl to: {url}")
+          path.write_text(
+              html,
+              encoding="utf-8"
+          )
+
+          print(f"Tunnel URL set to: {url}")
           PY
 
       - name: Setup Pages
